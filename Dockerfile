@@ -1,6 +1,12 @@
-FROM public.ecr.aws/docker/library/python:3.9-slim
+#FROM public.ecr.aws/docker/library/python:3.9-slim
+FROM python:3.9-slim
+
+COPY . /app
 WORKDIR /app
-COPY . .
+
 RUN pip install -r requirements.txt
 
-CMD ["uvicorn","main:app","--host","0.0.0.0"]
+RUN chmod +x entrypoint.sh
+#
+ENV DB_URL=mysql+pymysql://user:test1234@database-1.c5kqucccw075.ap-northeast-2.rds.amazonaws.com/db
+ENTRYPOINT ["/app/entrypoint.sh"]
